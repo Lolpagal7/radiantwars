@@ -5,14 +5,7 @@ import "./Landing.css"
 const Landing = () => {
     return (
         <div className="mainContainer">
-            <div className='viewport'>
-                <ViewPort3/>
-            </div>
-
-
-            <div className="front">
-
-            </div>
+            sba
         </div>
     )
 }
