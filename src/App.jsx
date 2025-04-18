@@ -1,11 +1,12 @@
 import React from 'react'
 import "./App.css"
-import QuantumExplorer from "./Landing/QuantumExplorer.jsx";
+import BlackHoleObserver from "./Landing/BlackHoleObserver.jsx";
+import {BlackHoleScene} from "./Landing/BlackHole.jsx";
 
 const App = () => {
     return (
         <div className={"mainContainer"}>
-            <QuantumExplorer/>
+            <BlackHoleObserver/>
         </div>
     )
 }

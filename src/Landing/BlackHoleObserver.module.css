@@ -1,0 +1,795 @@
+/* Base styles */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+
+/* Root container */
+.container {
+    font-family: "JetBrains Mono", monospace;
+    color: #ccc;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #080808;
+    overflow: hidden;
+}
+
+/* Background canvas */
+.backgroundCanvas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+/* Main interface container */
+.interface {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Header styles */
+.header {
+    height: 40px;
+    border-bottom: 0.8px solid rgba(26, 26, 26, 0.4);
+    background-color: rgba(8, 8, 8, 0.4);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.headerCenter {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.headerRight {
+    display: flex;
+    gap: 24px;
+}
+
+.indicator {
+    width: 6px;
+    height: 6px;
+    background-color: #ccc;
+    flex-shrink: 0;
+}
+
+.systemName {
+    font-size: 10px;
+    letter-spacing: 4px;
+    white-space: nowrap;
+}
+
+.title {
+    font-size: 14px;
+    letter-spacing: 8px;
+    white-space: nowrap;
+}
+
+.status {
+    font-size: 10px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+.kernelVersion {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #666666;
+    white-space: nowrap;
+}
+
+/* Main content styles */
+.main {
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    overflow-y: auto;
+    gap: 1.5rem;
+    position: relative;
+}
+
+.main::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    border: 0.5px solid rgba(26, 26, 26, 0.5);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.leftPanel,
+.rightPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 200px;
+    max-width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.leftPanel::before,
+.rightPanel::before {
+    content: "";
+    position: absolute;
+    top: -0.25rem;
+    left: -0.25rem;
+    right: -0.25rem;
+    bottom: -0.25rem;
+    border: 0.5px solid rgba(26, 26, 26, 0.3);
+    pointer-events: none;
+    z-index: -1;
+}
+.spacer {
+    flex: 1;
+    min-width: 20px;
+}
+
+/* Panel styles */
+.panel {
+    background-color: rgba(10, 10, 10, 0.2);
+    backdrop-filter: blur(2px);
+    border: 0.8px solid rgba(26, 26, 26, 0.3);
+    border-radius: 4px;
+    padding: 1rem;
+    width: 200px;
+    max-width: 100%;
+}
+
+.panelTitle {
+    font-size: 12px;
+    letter-spacing: 4px;
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+}
+
+.panelContent {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.additionalMetrics {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.dataRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dataLabel {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #666666;
+    text-transform: uppercase;
+}
+
+.dataValue {
+    font-size: 11px;
+}
+
+.divider {
+    margin: 1.5rem 0;
+    height: 0.8px;
+    background-color: rgba(26, 26, 26, 0.3);
+}
+
+.statusIndicator {
+    width: 4px;
+    height: 4px;
+    flex-shrink: 0;
+}
+
+/* Footer styles */
+.footer {
+    height: 40px;
+    border-top: 0.8px solid rgba(26, 26, 26, 0.4);
+    background-color: rgba(8, 8, 8, 0.4);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    flex-shrink: 0;
+}
+
+.footerLeft {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.footerRight {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.runtimeLabel {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #666666;
+    white-space: nowrap;
+}
+
+.runtimeValue {
+    font-size: 8px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+.initButton {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #666666;
+    background-color: rgba(10, 10, 10, 0.2);
+    backdrop-filter: blur(2px);
+    border: 0.8px solid rgba(26, 26, 26, 0.3);
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-family: "JetBrains Mono", monospace;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.initButton:hover {
+    color: #ccc;
+    border-color: rgba(204, 204, 204, 0.4);
+    box-shadow: 0 0 10px rgba(204, 204, 204, 0.2);
+}
+
+.initButton:active {
+    transform: scale(0.98);
+}
+
+.initButton::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(204, 204, 204, 0.8),
+            transparent
+    );
+    animation: buttonScan 2s linear infinite;
+}
+
+@keyframes buttonScan {
+    0% {
+        left: -100%;
+    }
+    50% {
+        left: 100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+.memoryStatus {
+    font-size: 8px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+.tempStatus {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #666666;
+    white-space: nowrap;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+    .main {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .spacer {
+        display: none;
+    }
+
+    .leftPanel,
+    .rightPanel {
+        flex: 1;
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .leftPanel,
+    .rightPanel {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .panel {
+        width: 100%;
+    }
+
+    .title {
+        font-size: 12px;
+        letter-spacing: 4px;
+    }
+
+    .header {
+        position: relative;
+    }
+
+    .headerCenter {
+        position: static;
+        transform: none;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .headerLeft,
+    .headerRight {
+        z-index: 1;
+    }
+}
+@media (max-width: 480px) {
+    .header,
+    .footer {
+        padding: 0 0.75rem;
+        height: auto;
+        min-height: 40px;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .headerLeft,
+    .headerRight,
+    .footerLeft,
+    .footerRight {
+        gap: 12px;
+    }
+
+    .systemName,
+    .kernelVersion,
+    .status {
+        font-size: 8px;
+    }
+
+    .initButton {
+        font-size: 11px;
+        letter-spacing: 4px;
+        color: #666666;
+        background-color: rgba(10, 10, 10, 0.2);
+        backdrop-filter: blur(2px);
+        border: 0.8px solid rgba(26, 26, 26, 0.3);
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        font-family: "JetBrains Mono", monospace;
+        white-space: nowrap;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .initButton:hover {
+        color: #ccc;
+        border-color: rgba(204, 204, 204, 0.4);
+        box-shadow: 0 0 10px rgba(204, 204, 204, 0.2);
+    }
+
+    .initButton:active {
+        transform: scale(0.98);
+    }
+
+    .initButton::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(204, 204, 204, 0.8),
+                transparent
+        );
+        animation: buttonScan 2s linear infinite;
+    }
+
+    .buttonDisabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        border-color: rgba(255, 0, 0, 0.3);
+        color: rgba(255, 0, 0, 0.7);
+    }
+
+    .buttonDisabled:hover {
+        color: rgba(255, 0, 0, 0.7);
+        border-color: rgba(255, 0, 0, 0.3);
+        box-shadow: none;
+    }
+
+    .buttonDisabled::before {
+        animation: none;
+        background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 0, 0, 0.5),
+                transparent
+        );
+        left: 0;
+        width: 100%;
+    }
+
+    @keyframes buttonScan {
+        0% {
+            left: -100%;
+        }
+        50% {
+            left: 100%;
+        }
+        100% {
+            left: 100%;
+        }
+    }
+
+    .panel {
+        padding: 0.75rem;
+    }
+
+    .panelTitle {
+        font-size: 10px;
+        margin-bottom: 1rem;
+    }
+
+    .dataLabel,
+    .dataValue,
+    .runtimeLabel,
+    .runtimeValue,
+    .memoryStatus,
+    .tempStatus {
+        font-size: 7px;
+    }
+}
+
+/* Fix for coordinates variable */
+.coordinates {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Glitch effect styles */
+.glitch {
+    position: relative;
+    overflow: hidden;
+}
+
+/* RGB split effect for different glitch levels */
+.glitchLevel1 .interface {
+    position: relative;
+}
+
+.glitchLevel1 .interface::before,
+.glitchLevel1 .interface::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.glitchLevel1 .interface::before {
+    background: inherit;
+    mix-blend-mode: difference;
+    transform: translateX(-2px);
+}
+
+.glitchLevel1 .interface::after {
+    background: inherit;
+    mix-blend-mode: difference;
+    transform: translateX(2px);
+}
+
+.glitchLevel2 .interface::before,
+.glitchLevel2 .interface::after {
+    opacity: 0.2;
+}
+
+.glitchLevel2 .interface::before {
+    transform: translateX(-4px);
+}
+
+.glitchLevel2 .interface::after {
+    transform: translateX(4px);
+}
+
+.glitchLevel3 .interface::before,
+.glitchLevel3 .interface::after {
+    opacity: 0.3;
+}
+
+.glitchLevel3 .interface::before {
+    transform: translateX(-6px);
+    filter: hue-rotate(90deg);
+}
+
+.glitchLevel3 .interface::after {
+    transform: translateX(6px);
+    filter: hue-rotate(-90deg);
+}
+
+.glitchLevel4 .interface::before,
+.glitchLevel4 .interface::after {
+    opacity: 0.4;
+}
+
+.glitchLevel4 .interface::before {
+    transform: translateX(-8px);
+    filter: hue-rotate(180deg);
+}
+
+.glitchLevel4 .interface::after {
+    transform: translateX(8px);
+    filter: hue-rotate(-180deg);
+}
+
+.glitchLevel5 .interface::before,
+.glitchLevel5 .interface::after {
+    opacity: 0.5;
+}
+
+.glitchLevel5 .interface::before {
+    transform: translateX(-10px);
+    filter: hue-rotate(270deg);
+}
+
+.glitchLevel5 .interface::after {
+    transform: translateX(10px);
+    filter: hue-rotate(-270deg);
+}
+
+/* Random flicker animation for higher glitch levels */
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
+    3% {
+        opacity: 0.8;
+    }
+    6% {
+        opacity: 1;
+    }
+    7% {
+        opacity: 0.4;
+    }
+    8% {
+        opacity: 1;
+    }
+    9% {
+        opacity: 0.9;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.glitchLevel4 .interface,
+.glitchLevel5 .interface {
+    animation: flicker 2s infinite;
+}
+
+/* Event status styles */
+.warningEvent {
+    color: #ffcc00;
+}
+
+.criticalEvent {
+    color: #ff3333;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Typewriter effect styles */
+.loadingScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #080808;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    font-family: "JetBrains Mono", monospace;
+    color: #ccc;
+    overflow: hidden;
+}
+
+/* TARS Subtitles styles */
+.subtitlesContainer {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 0.8px solid rgba(204, 204, 204, 0.2);
+    border-radius: 4px;
+    padding: 1rem;
+    z-index: 200;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.subtitlesHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.subtitlesSource {
+    font-size: 12px;
+    font-weight: bold;
+    color: #4a9df8;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px rgba(74, 157, 248, 0.5);
+}
+
+.subtitlesText {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    color: #fff;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.typewriterContainer {
+    width: 80%;
+    max-width: 600px;
+    height: 300px;
+    overflow: hidden;
+    padding: 1rem;
+    background-color: rgba(10, 10, 10, 0.2);
+    border: 0.8px solid rgba(26, 26, 26, 0.3);
+    border-radius: 4px;
+    position: relative;
+}
+
+.typewriterText {
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background-color: #ccc;
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    from,
+    to {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.loadingProgress {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    height: 2px;
+    background-color: rgba(26, 26, 26, 0.3);
+}
+
+.loadingBar {
+    height: 100%;
+    background-color: #ccc;
+    transition: width 0.2s ease;
+}
+
+.loadingInfo {
+    position: absolute;
+    bottom: 2rem;
+    right: 1rem;
+    font-size: 10px;
+    color: #666666;
+}
+
+.skipPrompt {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: #666666;
+    letter-spacing: 2px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+}
