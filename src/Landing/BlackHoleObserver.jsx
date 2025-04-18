@@ -25,6 +25,15 @@ const BlackHoleObserver = () => {
     const [errorPopups, setErrorPopups] = useState([]);
     const [showRedFlash, setShowRedFlash] = useState(false);
 
+    // Emergency failsafe state
+    const [showEmergencyFailsafe, setShowEmergencyFailsafe] = useState(false);
+    const [failsafeProgress, setFailsafeProgress] = useState(0);
+    const [failsafeStatus, setFailsafeStatus] = useState("");
+    const [failsafeError, setFailsafeError] = useState("");
+
+    // Solar system loader state
+    const [showSolarSystemLoader, setShowSolarSystemLoader] = useState(false);
+
     // State management (replacing Alpine.js functionality)
     const [metrics, setMetrics] = useState({
         mass: "1.2e38",
@@ -60,6 +69,9 @@ const BlackHoleObserver = () => {
         footer: false,
         allElements: false,
     });
+
+    // State to track when UI should be completely blank
+    const [showBlankScreen, setShowBlankScreen] = useState(false);
 
     // TARS dialogue sequence
     const tarsDialogue = useRef([
@@ -222,6 +234,63 @@ const BlackHoleObserver = () => {
         }
     }, [loading, eventSequenceActive]);
 
+    // Emergency failsafe effect
+    useEffect(() => {
+        if (showEmergencyFailsafe) {
+            // Simulate failsafe progress
+            setFailsafeStatus("INITIALIZING EMERGENCY TELEPORT SEQUENCE");
+
+            const progressInterval = setInterval(() => {
+                setFailsafeProgress((prev) => {
+                    if (prev < 60) {
+                        return prev + 1;
+                    } else {
+                        clearInterval(progressInterval);
+                        return prev;
+                    }
+                });
+            }, 50);
+
+            // Update status messages
+            setTimeout(() => {
+                setFailsafeStatus("CALCULATING RETURN COORDINATES");
+            }, 1000);
+
+            setTimeout(() => {
+                setFailsafeStatus("ESTABLISHING QUANTUM LINK TO HOME BASE");
+            }, 2000);
+
+            setTimeout(() => {
+                setFailsafeStatus("ATTEMPTING TO LOCK SIGNAL");
+            }, 3000);
+
+            // Fail at 60%
+            setTimeout(() => {
+                setFailsafeStatus("ERROR: QUANTUM LINK UNSTABLE");
+                setFailsafeError("TELEPORT SEQUENCE FAILED - LINK BROKEN");
+
+                // Clear progress interval if it's still running
+                clearInterval(progressInterval);
+
+                // Show final error message
+                setTimeout(() => {
+                    setShowEmergencyFailsafe(false);
+                    setShowBlankScreen(true);
+
+                    // Show solar system loader after 5-6 seconds
+                    setTimeout(() => {
+                        setShowBlankScreen(false);
+                        setShowSolarSystemLoader(true);
+                    }, 5500);
+                }, 2500);
+            }, 3500);
+
+            return () => {
+                clearInterval(progressInterval);
+            };
+        }
+    }, [showEmergencyFailsafe]);
+
     // Destabilization sequence effect
     useEffect(() => {
         if (
@@ -298,6 +367,16 @@ const BlackHoleObserver = () => {
                         allElements: true,
                     }));
                 }, 6000);
+
+                // After everything disappears, show emergency failsafe
+                setTimeout(() => {
+                    // Clear all error popups
+                    setErrorPopups([]);
+                    // Hide subtitles
+                    setShowSubtitles(false);
+                    // Show emergency failsafe
+                    setShowEmergencyFailsafe(true);
+                }, 8000);
             }
 
             // Show error popup if needed
@@ -503,6 +582,92 @@ const BlackHoleObserver = () => {
             </div>
         );
     };
+
+    // Emergency Failsafe Component
+    const EmergencyFailsafe = () => {
+        return (
+            <div className={styles.emergencyFailsafe}>
+                <h2 className={styles.emergencyTitle}>EMERGENCY PROTOCOL ACTIVATED</h2>
+                <p className={styles.emergencyMessage}>
+                    INITIATING EMERGENCY QUANTUM TELEPORT TO HOME BASE
+                </p>
+                <div className={styles.emergencyProgress}>
+                    <div
+                        className={styles.emergencyProgressBar}
+                        style={{ width: `${failsafeProgress}%` }}
+                    />
+                </div>
+                <div className={styles.emergencyStatus}>{failsafeStatus}</div>
+                {failsafeError && (
+                    <div className={styles.emergencyError}>{failsafeError}</div>
+                )}
+            </div>
+        );
+    };
+
+    // Solar System Loader Component
+    const SolarSystemLoader = () => {
+        // Generate random stars
+        const stars = [];
+        for (let i = 0; i < 100; i++) {
+            const size = Math.random() * 2 + 1;
+            stars.push({
+                id: i,
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                size: `${size}px`,
+                opacity: Math.random() * 0.5 + 0.5,
+            });
+        }
+
+        return (
+            <div className={styles.solarSystemLoader}>
+                <h2 className={styles.solarSystemTitle}>
+                    LOCATING SOLAR SYSTEM COORDINATES
+                </h2>
+                <div className={styles.solarSystemMap}>
+                    <div className={styles.solarSystemGrid} />
+                    {stars.map((star) => (
+                        <div
+                            key={star.id}
+                            className={styles.solarSystemStar}
+                            style={{
+                                top: star.top,
+                                left: star.left,
+                                width: star.size,
+                                height: star.size,
+                                opacity: star.opacity,
+                            }}
+                        />
+                    ))}
+                    <div className={styles.solarSystemSun} />
+                    <div className={styles.solarSystemEarth} />
+                    <div className={styles.solarSystemMarker} />
+                </div>
+                <div className={styles.solarSystemCoordinates}>
+                    MILKY WAY GALAXY • ORION ARM • SOL SYSTEM
+                </div>
+                <div className={styles.solarSystemDistance}>
+                    DISTANCE FROM EVENT HORIZON: <span>2.7e19 km</span>
+                </div>
+            </div>
+        );
+    };
+
+    // If showing solar system loader
+    if (showSolarSystemLoader) {
+        return <SolarSystemLoader />;
+    }
+
+    // If showing blank screen
+    if (showBlankScreen) {
+        return <div className={styles.blankScreen} />;
+    }
+
+    // If showing emergency failsafe
+    if (showEmergencyFailsafe) {
+        return <EmergencyFailsafe />;
+    }
 
     return (
         <div className={`${styles.container} ${getGlitchClass()}`}>
