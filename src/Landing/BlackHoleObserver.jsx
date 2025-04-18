@@ -21,6 +21,10 @@ const BlackHoleObserver = () => {
     const [glitchLevel, setGlitchLevel] = useState(0); // 0-5, 0 = no glitch, 5 = severe
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
+    // Error popup state
+    const [errorPopups, setErrorPopups] = useState([]);
+    const [showRedFlash, setShowRedFlash] = useState(false);
+
     // State management (replacing Alpine.js functionality)
     const [metrics, setMetrics] = useState({
         mass: "1.2e38",
@@ -45,6 +49,17 @@ const BlackHoleObserver = () => {
     const [frequency, setFrequency] = useState("128.4");
     const [signal, setSignal] = useState("76");
     const [runtime, setRuntime] = useState(0);
+
+    // UI disappearance states
+    const [disappearingElements, setDisappearingElements] = useState({
+        locationPanel: false,
+        systemStatusPanel: false,
+        eventStatusPanel: false,
+        metricsPanel: false,
+        header: false,
+        footer: false,
+        allElements: false,
+    });
 
     // TARS dialogue sequence
     const tarsDialogue = useRef([
@@ -82,6 +97,7 @@ const BlackHoleObserver = () => {
                 "Quantum bridge deactivated. Switching to conventional observation mode.",
             delay: 0,
             glitchLevel: 0,
+            showError: false,
         },
         {
             log: "RECALIBRATING SENSORS",
@@ -89,6 +105,7 @@ const BlackHoleObserver = () => {
                 "Recalibrating sensors for direct observation. Please stand by.",
             delay: 3000,
             glitchLevel: 0,
+            showError: false,
         },
         {
             log: "WARNING: GRAVITATIONAL ANOMALY DETECTED",
@@ -96,6 +113,7 @@ const BlackHoleObserver = () => {
                 "Warning: Detecting unusual gravitational fluctuations. Analyzing...",
             delay: 6000,
             glitchLevel: 1,
+            showError: false,
         },
         {
             log: "ERROR: ORBITAL TRAJECTORY SHIFTING",
@@ -103,6 +121,15 @@ const BlackHoleObserver = () => {
                 "Alert: Our orbital trajectory is shifting. Attempting to compensate.",
             delay: 9000,
             glitchLevel: 2,
+            showError: true,
+            errorData: {
+                title: "ORBITAL TRAJECTORY ERROR",
+                code: "ERR-1138",
+                message:
+                    "Orbital trajectory deviation detected. Gravitational forces exceeding compensation thresholds.",
+                details:
+                    "Deviation: 12.8°\nThrust compensation: FAILED\nStabilizers: OFFLINE\nBackup systems: INITIALIZING",
+            },
         },
         {
             log: "CRITICAL: GRAVITATIONAL PULL INCREASING",
@@ -110,6 +137,15 @@ const BlackHoleObserver = () => {
                 "Critical alert: Gravitational pull increasing beyond safe parameters. Attempting emergency quantum bridge reactivation.",
             delay: 12000,
             glitchLevel: 3,
+            showError: true,
+            errorData: {
+                title: "CRITICAL SYSTEM FAILURE",
+                code: "ERR-3720",
+                message:
+                    "Gravitational forces exceeding structural integrity limits. Multiple systems failing.",
+                details:
+                    "Hull integrity: 68%\nShield systems: CRITICAL\nLife support: COMPROMISED\nEvacuation protocols: INITIATED",
+            },
         },
         {
             log: "EMERGENCY: QUANTUM BRIDGE FAILURE",
@@ -117,6 +153,15 @@ const BlackHoleObserver = () => {
                 "Emergency: Quantum bridge reactivation failed. We are being pulled toward the event horizon.",
             delay: 15000,
             glitchLevel: 4,
+            showError: true,
+            errorData: {
+                title: "EMERGENCY ALERT",
+                code: "ERR-5150",
+                message:
+                    "Quantum bridge reactivation failed. Event horizon proximity warning.",
+                details:
+                    "Distance to event horizon: 1.2e6 km\nEscape velocity required: 0.97c\nCurrent velocity: 0.93c\nProbability of escape: 0.02%",
+            },
         },
         {
             log: "CRITICAL: EVENT HORIZON APPROACH IMMINENT",
@@ -124,6 +169,14 @@ const BlackHoleObserver = () => {
                 "Critical: Event horizon approach imminent. Prepare for spaghettification. It has been an honor serving with you.",
             delay: 18000,
             glitchLevel: 5,
+            showError: true,
+            errorData: {
+                title: "TERMINAL SYSTEM FAILURE",
+                code: "ERR-9999",
+                message: "EVENT HORIZON BREACH IMMINENT. ALL SYSTEMS FAILING.",
+                details:
+                    "Time to event horizon: 00:00:47\nHull integrity: 23%\nTime dilation factor: 437.8\nTransmission status: FINAL",
+            },
         },
     ]);
 
@@ -186,6 +239,138 @@ const BlackHoleObserver = () => {
 
             // Set glitch level
             setGlitchLevel(currentEvent.glitchLevel);
+
+            // Start disappearing UI elements based on event step
+            if (currentEventStep >= 3) {
+                // Start disappearing at ERROR: ORBITAL TRAJECTORY SHIFTING
+                // Start with location panel
+                setDisappearingElements((prev) => ({
+                    ...prev,
+                    locationPanel: true,
+                }));
+            }
+
+            if (currentEventStep >= 4) {
+                // At CRITICAL: GRAVITATIONAL PULL INCREASING
+                // Disappear system status panel
+                setTimeout(() => {
+                    setDisappearingElements((prev) => ({
+                        ...prev,
+                        systemStatusPanel: true,
+                    }));
+                }, 2000);
+            }
+
+            if (currentEventStep >= 5) {
+                // At EMERGENCY: QUANTUM BRIDGE FAILURE
+                // Disappear event status panel
+                setTimeout(() => {
+                    setDisappearingElements((prev) => ({
+                        ...prev,
+                        eventStatusPanel: true,
+                    }));
+                }, 2000);
+
+                // Disappear metrics panel shortly after
+                setTimeout(() => {
+                    setDisappearingElements((prev) => ({
+                        ...prev,
+                        metricsPanel: true,
+                    }));
+                }, 4000);
+            }
+
+            if (currentEventStep >= 6) {
+                // At CRITICAL: EVENT HORIZON APPROACH IMMINENT (final step)
+                // Disappear header and footer
+                setTimeout(() => {
+                    setDisappearingElements((prev) => ({
+                        ...prev,
+                        header: true,
+                        footer: true,
+                    }));
+                }, 3000);
+
+                // Finally disappear everything
+                setTimeout(() => {
+                    setDisappearingElements((prev) => ({
+                        ...prev,
+                        allElements: true,
+                    }));
+                }, 6000);
+            }
+
+            // Show error popup if needed
+            if (currentEvent.showError) {
+                // Add red flash for errors
+                setShowRedFlash(true);
+                setTimeout(() => setShowRedFlash(false), 1000);
+
+                // Generate a new error popup with random position
+                const newPopup = {
+                    ...currentEvent.errorData,
+                    id: Date.now(),
+                    position: {
+                        top: `${Math.floor(Math.random() * 70) + 10}%`,
+                        left: `${Math.floor(Math.random() * 70) + 10}%`,
+                    },
+                };
+
+                setErrorPopups((prev) => [...prev, newPopup]);
+
+                // For higher glitch levels, add multiple error popups
+                if (currentEvent.glitchLevel >= 4) {
+                    // Add 2-3 additional error popups with slight variations
+                    for (let i = 0; i < (currentEvent.glitchLevel === 5 ? 3 : 2); i++) {
+                        setTimeout(
+                            () => {
+                                const additionalPopup = {
+                                    ...currentEvent.errorData,
+                                    id: Date.now() + i + 1,
+                                    title: `${currentEvent.errorData.title} - SECTOR ${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${Math.floor(Math.random() * 10)}`,
+                                    position: {
+                                        top: `${Math.floor(Math.random() * 70) + 10}%`,
+                                        left: `${Math.floor(Math.random() * 70) + 10}%`,
+                                    },
+                                };
+                                setErrorPopups((prev) => [...prev, additionalPopup]);
+                            },
+                            500 * (i + 1),
+                        );
+                    }
+                }
+
+                // Hide errors after a delay (except for the final error)
+                if (currentEventStep < destabilizationSequence.current.length - 1) {
+                    setTimeout(() => {
+                        setErrorPopups([]);
+                    }, currentEvent.delay - 1000);
+                }
+            }
+
+            // Add random error logs for higher glitch levels
+            if (currentEvent.glitchLevel >= 3) {
+                const randomErrors = [
+                    "ERROR: MEMORY CORRUPTION IN SECTOR 7G",
+                    "WARNING: QUANTUM FLUCTUATIONS DETECTED",
+                    "ALERT: TEMPORAL ANOMALY INCREASING",
+                    "ERROR: NAVIGATION SYSTEMS OFFLINE",
+                    "CRITICAL: HULL INTEGRITY COMPROMISED",
+                    "ALERT: RADIATION LEVELS EXCEEDING SAFETY PARAMETERS",
+                ];
+
+                // Add random errors periodically
+                const errorInterval = setInterval(() => {
+                    const randomError =
+                        randomErrors[Math.floor(Math.random() * randomErrors.length)];
+                    setEventLogs((prev) => [randomError, ...prev.slice(0, 4)]);
+                }, 2000);
+
+                // Clear interval when moving to next step
+                setTimeout(() => {
+                    clearInterval(errorInterval);
+                }, currentEvent.delay - 100);
+            }
 
             // Update metrics and coordinates to simulate destabilization
             if (currentEventStep > 2) {
@@ -291,6 +476,34 @@ const BlackHoleObserver = () => {
         return `${styles.glitch} ${styles[`glitchLevel${glitchLevel}`]}`;
     };
 
+    // Helper function to get disappearing class
+    const getDisappearingClass = (elementName) => {
+        if (disappearingElements.allElements) return styles.disappearingFast;
+        if (disappearingElements[elementName]) return styles.disappearing;
+        return "";
+    };
+
+    // Error Popup Component
+    const ErrorPopup = ({ error }) => {
+        return (
+            <div
+                className={styles.errorPopup}
+                style={{
+                    top: error.position.top,
+                    left: error.position.left,
+                    transform: "none", // Override the default transform
+                }}
+            >
+                <div className={styles.errorHeader}>
+                    <h3 className={styles.errorTitle}>{error.title}</h3>
+                    <span className={styles.errorCode}>{error.code}</span>
+                </div>
+                <p className={styles.errorMessage}>{error.message}</p>
+                <pre className={styles.errorDetails}>{error.details}</pre>
+            </div>
+        );
+    };
+
     return (
         <div className={`${styles.container} ${getGlitchClass()}`}>
             {loading && (
@@ -301,29 +514,47 @@ const BlackHoleObserver = () => {
                 />
             )}
             {showSubtitles && <TarsSubtitles currentSubtitle={currentSubtitle} />}
+            {errorPopups.map((popup) => (
+                <ErrorPopup key={popup.id} error={popup} />
+            ))}
+            {showRedFlash && <div className={styles.redFlash} />}
             <div id="backgroundCanvas" className={styles.backgroundCanvas} />
-            <div className={styles.interface}>
-                <Header />
+            <div
+                className={`${styles.interface} ${disappearingElements.allElements ? styles.disappearingFast : ""}`}
+            >
+                <div className={getDisappearingClass("header")}>
+                    <Header />
+                </div>
                 <main className={styles.main}>
                     <div className={styles.leftPanel}>
-                        <MetricsPanel metrics={metrics} coordinates={coordinates} />
-                        <EventStatusPanel eventLogs={eventLogs} />
+                        <div className={getDisappearingClass("metricsPanel")}>
+                            <MetricsPanel metrics={metrics} coordinates={coordinates} />
+                        </div>
+                        <div className={getDisappearingClass("eventStatusPanel")}>
+                            <EventStatusPanel eventLogs={eventLogs} />
+                        </div>
                     </div>
                     <div className={styles.spacer} />
                     <div className={styles.rightPanel}>
-                        <SystemStatusPanel
-                            systemStatus={systemStatus}
-                            frequency={frequency}
-                            signal={signal}
-                        />
-                        <LocationPanel />
+                        <div className={getDisappearingClass("systemStatusPanel")}>
+                            <SystemStatusPanel
+                                systemStatus={systemStatus}
+                                frequency={frequency}
+                                signal={signal}
+                            />
+                        </div>
+                        <div className={getDisappearingClass("locationPanel")}>
+                            <LocationPanel />
+                        </div>
                     </div>
                 </main>
-                <Footer
-                    runtime={formatRuntime()}
-                    initSystem={initSystem}
-                    buttonDisabled={buttonDisabled}
-                />
+                <div className={getDisappearingClass("footer")}>
+                    <Footer
+                        runtime={formatRuntime()}
+                        initSystem={initSystem}
+                        buttonDisabled={buttonDisabled}
+                    />
+                </div>
             </div>
         </div>
     );
