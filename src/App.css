@@ -1,5 +1,5 @@
-.appContainer{
-    width: 100%;
+.mainContainer{
+    background-color: #232121;
+    width: 100vw;
     height: 100vh;
-    background-color: aquamarine;
 }

@@ -1,13 +1,12 @@
-import { useState } from 'react'
-import './App.css'
-import Landing from "./Landing/Landing.jsx";
+import React from 'react'
+import "./App.css"
+import QuantumExplorer from "./Landing/QuantumExplorer.jsx";
 
-function App() {
-  return (
-    <div className="appContainer">
-
-    </div>
-  )
+const App = () => {
+    return (
+        <div className={"mainContainer"}>
+            <QuantumExplorer/>
+        </div>
+    )
 }
-
 export default App
