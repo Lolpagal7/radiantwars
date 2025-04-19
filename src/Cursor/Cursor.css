@@ -1,5 +1,5 @@
 *{
-    cursor: none !important;
+    cursor: none;
 }
 .cursor{
 
@@ -9,10 +9,12 @@
     border-radius: 50%;
     border: 2px solid #ffffff;
 
-    z-index: 99;
+    z-index: 9999;
 
     position : absolute;
 
     user-select: none;
     pointer-events: none;
+
+    transform: translate(-50%, -50%);
 }

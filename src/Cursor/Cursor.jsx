@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import "./Cursor.css";
-import  {motion} from "framer-motion";
-import number from "leva/src/components/Number/index.js";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 
 const Cursor = () => {
@@ -10,6 +9,9 @@ const Cursor = () => {
         y: 0
     });
     console.log("mousePosition", mousePosition);
+
+    const springConfig = { stiffness: 100, damping: 100000 };
+
 
     useEffect(() => {
         const mouseMove = e => {
@@ -29,12 +31,13 @@ const Cursor = () => {
     const variants ={
         default: {
             x:  mousePosition.x-15,
-            y:  mousePosition.y-15
+            y:  mousePosition.y-15,
+            transition: { type: "spring", ...springConfig }
         }
     }
     return(
-        <div className="cursor" variants={variants} animate="default" >
-        </div>
+        <motion.div className="cursor" variants={variants} animate="default" >
+        </motion.div>
     )
 };
 
