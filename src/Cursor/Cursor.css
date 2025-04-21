@@ -1,13 +1,11 @@
 *{
-    cursor: none;
+    cursor: none !important;
 }
 .cursor{
-
     opacity: 0.8;
     height: 30px;
     width: 30px;
     border-radius: 50%;
-    border: 2px solid #ffffff;
 
     z-index: 99;
 
@@ -18,3 +16,18 @@
 
     transform: translate(-50%, -50%);
 }
+
+.cursor-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 200px;
+    background-color: white;
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    z-index: 99;
+}
+
