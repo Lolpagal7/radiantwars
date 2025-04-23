@@ -16,8 +16,6 @@ const Cursor = () => {
     const springConfig = { stiffness: 300, damping: 15};
     const radius= 100;
 
-    console.log("mousePosition", mousePosition);
-
 
 
 
@@ -77,12 +75,7 @@ const Cursor = () => {
 
     return(
         <>
-        <motion.div
-            className="cursor-background"
-            variants={backgroundVariants}
-            animate="default"
 
-        />
         <motion.div className="cursor" variants={variants} animate="default" style={{
             backgroundColor: isPressed ? "white" : "transparent",
             border: isPressed ? "none" : "2px solid white",

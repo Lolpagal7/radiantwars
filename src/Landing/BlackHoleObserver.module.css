@@ -10,13 +10,18 @@
     height: 100vh;
     background-color: #080808;
     overflow: hidden;
+
+    pointer-events: none;
 }
 
 /* Background canvas */
 .backgroundCanvas {
     position: absolute;
     inset: 0;
-    z-index: 0;
+    z-index: 5;
+
+    pointer-events: auto;
+
 }
 
 /* Main interface container */
@@ -252,12 +257,14 @@
     backdrop-filter: blur(2px);
     border: 0.8px solid rgba(26, 26, 26, 0.3);
     padding: 0.75rem 1.5rem;
-    cursor: pointer;
+    cursor: none;
     font-family: "JetBrains Mono", monospace;
     white-space: nowrap;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+
+    pointer-events: auto;
 }
 
 .initButton:hover {
@@ -1260,7 +1267,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index: 696970;
     font-family: "JetBrains Mono", monospace;
     color: #ccc;
     overflow: hidden;
