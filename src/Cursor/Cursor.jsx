@@ -24,25 +24,8 @@ const Cursor = () => {
     useEffect(() => {
         const mouseMove = e => {
             if (isPressed) {
-                const dx = e.clientX - origin.x;
-                const dy = e.clientY - origin.y;
-                const distance = Math.sqrt(dx*dx + dy*dy);
-
-                let newMousePosition = {
-                    x: e.clientX,
-                    y: e.clientY
-                };
-
-                if (distance > radius) {
-                    const angle = Math.atan2(dy, dx);
-                    newMousePosition.x = origin.x+Math.cos(angle)*radius;
-                    newMousePosition.y = origin.y+Math.sin(angle)*radius;
-                }
-
-                setMousePosition(newMousePosition);
-            } else{
-                setMousePosition({x:e.clientX, y:e.clientY});
             }
+            setMousePosition({x:e.clientX, y:e.clientY});
         }
 
         const mouseDown = (e) => {
