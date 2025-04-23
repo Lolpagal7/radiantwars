@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./BlackHoleObserver.module.css";
 
+import SpaceScene from "./3D/spaceScene.jsx";
+
 const BlackHoleObserver = () => {
     // Loading state
     const [loading, setLoading] = useState(true);
@@ -72,10 +74,6 @@ const BlackHoleObserver = () => {
 
     // State to track when UI should be completely blank
     const [showBlankScreen, setShowBlankScreen] = useState(false);
-
-    const debugCallback = () => {
-        console.log("e");
-    };
 
     // TARS dialogue sequence
     const tarsDialogue = useRef([
@@ -687,7 +685,9 @@ const BlackHoleObserver = () => {
                 <ErrorPopup key={popup.id} error={popup} />
             ))}
             {showRedFlash && <div className={styles.redFlash} />}
-            <div id="backgroundCanvas" className={styles.backgroundCanvas} onClick={debugCallback}  />
+            <div id="backgroundCanvas" className={styles.backgroundCanvas}>
+                <SpaceScene/>
+            </div>
             <div
                 className={`${styles.interface} ${disappearingElements.allElements ? styles.disappearingFast : ""}`}
             >

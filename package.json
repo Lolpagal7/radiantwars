@@ -10,10 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@nodetoy/react-nodetoy": "^0.1.24",
     "@react-three/drei": "^10.0.6",
     "@react-three/fiber": "^9.1.2",
     "@react-three/postprocessing": "^3.0.4",
     "@tailwindcss/vite": "^4.1.4",
+    "@tweenjs/tween.js": "^25.0.0",
+    "babel-plugin-glsl": "^1.0.0",
     "framer-motion": "^12.7.4",
     "lerp": "^1.0.3",
     "leva": "^0.10.0",
@@ -21,8 +24,10 @@
     "react-dom": "^19.0.0",
     "react-script": "^2.0.5",
     "react-three-fiber": "^6.0.13",
+    "simplex-noise": "^4.0.3",
     "tailwindcss": "^4.1.4",
     "three": "^0.175.0",
+    "three-stdlib": "^2.35.15",
     "threejs-meshline": "^2.0.12"
   },
   "devDependencies": {
