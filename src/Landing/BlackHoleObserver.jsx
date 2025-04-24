@@ -117,7 +117,7 @@ const BlackHoleObserver = () => {
             log: "RECALIBRATING SENSORS",
             tarsMessage:
                 "Recalibrating sensors for direct observation. Please stand by.",
-            delay: 3000,
+            delay: 1000,
             glitchLevel: 0,
             showError: false,
         },
@@ -125,7 +125,7 @@ const BlackHoleObserver = () => {
             log: "WARNING: GRAVITATIONAL ANOMALY DETECTED",
             tarsMessage:
                 "Warning: Detecting unusual gravitational fluctuations. Analyzing...",
-            delay: 6000,
+            delay: 2000,
             glitchLevel: 1,
             showError: false,
         },
@@ -133,7 +133,7 @@ const BlackHoleObserver = () => {
             log: "ERROR: ORBITAL TRAJECTORY SHIFTING",
             tarsMessage:
                 "Alert: Our orbital trajectory is shifting. Attempting to compensate.",
-            delay: 9000,
+            delay: 5000,
             glitchLevel: 2,
             showError: true,
             errorData: {
@@ -149,7 +149,7 @@ const BlackHoleObserver = () => {
             log: "CRITICAL: GRAVITATIONAL PULL INCREASING",
             tarsMessage:
                 "Critical alert: Gravitational pull increasing beyond safe parameters. Attempting emergency quantum bridge reactivation.",
-            delay: 12000,
+            delay: 7000,
             glitchLevel: 3,
             showError: true,
             errorData: {
@@ -165,7 +165,7 @@ const BlackHoleObserver = () => {
             log: "EMERGENCY: QUANTUM BRIDGE FAILURE",
             tarsMessage:
                 "Emergency: Quantum bridge reactivation failed. We are being pulled toward the event horizon.",
-            delay: 15000,
+            delay: 9000,
             glitchLevel: 4,
             showError: true,
             errorData: {
@@ -181,7 +181,7 @@ const BlackHoleObserver = () => {
             log: "CRITICAL: EVENT HORIZON APPROACH IMMINENT",
             tarsMessage:
                 "Critical: Event horizon approach imminent. Prepare for spaghettification. It has been an honor serving with you.",
-            delay: 18000,
+            delay: 12000,
             glitchLevel: 5,
             showError: true,
             errorData: {
@@ -685,7 +685,7 @@ const BlackHoleObserver = () => {
                 <ErrorPopup key={popup.id} error={popup} />
             ))}
             {showRedFlash && <div className={styles.redFlash} />}
-            <div id="backgroundCanvas" className={styles.backgroundCanvas}>
+            <div id="backgroundCanvas" className={styles.backgroundCanvas} onClick={console.log("e")}>
                 <SpaceScene/>
             </div>
             <div

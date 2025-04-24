@@ -16,8 +16,6 @@ const Cursor = () => {
     const springConfig = { stiffness: 300, damping: 15};
     const radius= 100;
 
-    console.log("mousePosition", mousePosition);
-
 
 
 
