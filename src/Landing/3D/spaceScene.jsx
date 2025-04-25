@@ -58,14 +58,14 @@ function AnimatedCameraControls() {
 }
 
 function SpaceScene() {
-  const [potato] = useState(true)
+  const [potato] = useState(true )
 
   return (
     <div style={{ width: '100%', height: '100%', background: 'black' }}>
       <Canvas camera={{ position: [0, 0, 0], fov: 50 }}>
         <Suspense fallback={null}>
           <ambientLight intensity={0.3} />
-          {!potato && <pointLight position={[10, 10, 10]} intensity={1.5} />}
+          {!potato && <pointLight position={[10, 10, 10]} intensity={1.5  } />}
           {!potato && <pointLight position={[0, 0, 0]} intensity={5} color={'white'} />}
 
           <Stars radius={100} depth={50} count={5000} factor={4} fade />
@@ -75,7 +75,7 @@ function SpaceScene() {
           <BlackHole
             position={[1, 1, 1]}
             rotation={[-0.5, 3, 0]}
-            rotationRate={[0, 0.005, 0]}  
+            rotationRate={[0, 0.005, 0]}
           />
 
           {!potato && (
