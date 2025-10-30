@@ -3,7 +3,6 @@ import { useRef, useEffect } from 'react'
 import { useFrame, extend, useLoader } from '@react-three/fiber'
 import { shaderMaterial } from '@react-three/drei'
 
-
 // Vertex shader
 const vertexShader = `
   // Created with NodeToy | Three.js r149

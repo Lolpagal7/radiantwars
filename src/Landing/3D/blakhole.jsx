@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 
@@ -11,8 +11,7 @@ export default function BlackHole({
     const group = useRef()
     const { nodes, materials, animations } = useGLTF('/blackhole.glb')
     useAnimations(animations, group)
-    
-    
+  
     
     // Rotate the black hole group every frame
     useFrame(() => {
@@ -37,6 +36,7 @@ export default function BlackHole({
                     receiveShadow
                     geometry={nodes.Blackhole_core_Blackhole_core_0.geometry}
                     material={materials.Blackhole_core}
+                    
                   />
                 </group>
                 <group name="Blackhole_ring" rotation={[-Math.PI / 2, 0, 0]}>
@@ -46,12 +46,14 @@ export default function BlackHole({
                     receiveShadow
                     geometry={nodes.Blackhole_ring_Blackhole_ring_0.geometry}
                     material={materials.Blackhole_ring}
+                    
                   />
                 </group>
                 <group name="Blackhole_skin_001" rotation={[-Math.PI / 2, 0, 0]} scale={0.95934796}>
                   <mesh
                     name="Blackhole_skin_001_Blackhole_skin_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_001_Blackhole_skin_0.geometry}
                     material={materials.Blackhole_skin}
@@ -61,6 +63,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_002_Blackhole_core_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_002_Blackhole_core_0.geometry}
                     material={materials.Blackhole_core}
@@ -70,6 +73,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_003_Blackhole_skin_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_003_Blackhole_skin_0.geometry}
                     material={materials.Blackhole_skin}
@@ -79,6 +83,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_004_Blackhole_core_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_004_Blackhole_core_0.geometry}
                     material={materials.Blackhole_core}
@@ -91,6 +96,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_005_Blackhole_skin_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_005_Blackhole_skin_0.geometry}
                     material={materials.Blackhole_skin}
@@ -103,6 +109,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_006_Blackhole_skin_inner_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_006_Blackhole_skin_inner_0.geometry}
                     material={materials.Blackhole_skin_inner}
@@ -115,6 +122,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_007_Blackhole_core_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_007_Blackhole_core_0.geometry}
                     material={materials.Blackhole_core}
@@ -124,6 +132,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_core001_Blackhole_core_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_core001_Blackhole_core_0.geometry}
                     material={materials.Blackhole_core}
@@ -136,6 +145,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_008_Blackhole_skin_inner_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_008_Blackhole_skin_inner_0.geometry}
                     material={materials.Blackhole_skin_inner}
@@ -148,6 +158,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_009_Blackhole_skin_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_009_Blackhole_skin_0.geometry}
                     material={materials.Blackhole_skin}
@@ -160,6 +171,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_010_Blackhole_skin_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_010_Blackhole_skin_0.geometry}
                     material={materials.Blackhole_skin}
@@ -172,6 +184,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_011_Blackhole_core_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_011_Blackhole_core_0.geometry}
                     material={materials.Blackhole_core}
@@ -184,6 +197,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_012_Blackhole_skin_inner_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_012_Blackhole_skin_inner_0.geometry}
                     material={materials.Blackhole_skin_inner}
@@ -196,6 +210,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_skin_013_Blackhole_ring2_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_skin_013_Blackhole_ring2_0.geometry}
                     material={materials.Blackhole_ring2}
@@ -205,6 +220,7 @@ export default function BlackHole({
                   <mesh
                     name="Blackhole_core002_Blackhole_ring2_0"
                     castShadow
+                    
                     receiveShadow
                     geometry={nodes.Blackhole_core002_Blackhole_ring2_0.geometry}
                     material={materials.Blackhole_ring2}

@@ -1,33 +1,21 @@
 *{
-    cursor: none;
+  cursor : none;
 }
-.cursor{
-    opacity: 0.8;
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-
-    z-index: 696969;
-
-    position : absolute;
-
-    user-select: none;
-    pointer-events: none;
-
-    transform: translate(-50%, -50%);
-}
-
-.cursor-background {
+.cursor {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 200px;
-    height: 200px;
-    background-color: white;
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
     border-radius: 50%;
-
     pointer-events: none;
-
-    z-index: 99;
-}
-
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    z-index: 9999;
+  }
+  
+  .cursor.pressed {
+    background-color: white;
+    border: none;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  

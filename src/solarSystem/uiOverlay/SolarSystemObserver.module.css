@@ -1,0 +1,337 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+
+/* Main container */
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: "JetBrains Mono", monospace;
+  color: #ccc;
+  overflow: hidden;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Loading overlay */
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  z-index: 200;
+  opacity: 1;
+  transition: opacity 3s ease-out;
+  pointer-events: none;
+}
+
+/* Subtitle container */
+.subtitleContainer {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  max-width: 600px;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  padding: 0.6rem 1rem;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.subtitleVisible {
+  opacity: 1;
+}
+
+.speakerName {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #999;
+  margin-right: 8px;
+  text-transform: uppercase;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.subtitleText {
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: #fff;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Debug button */
+.debugButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 0, 0, 0.5);
+  color: white;
+  border: 1px solid white;
+  padding: 5px 10px;
+  z-index: 2000;
+  cursor: pointer;
+}
+
+.fadeOut {
+  opacity: 0;
+}
+
+.interface {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Header styles */
+.header {
+  height: 40px;
+  border-bottom: 0.8px solid rgba(26, 26, 26, 0.6);
+  background-color: rgba(8, 8, 8, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  pointer-events: auto;
+}
+
+.headerLeft,
+.headerRight,
+.footerLeft,
+.footerRight {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.headerLeft {
+  gap: 12px;
+}
+
+.statusIndicator {
+  width: 6px;
+  height: 6px;
+  background-color: #ccc;
+}
+
+.statusIndicatorSmall {
+  width: 4px;
+  height: 4px;
+}
+
+.systemName {
+  font-size: 10px;
+  letter-spacing: 4px;
+}
+
+.mainTitle {
+  font-size: 14px;
+  letter-spacing: 8px;
+}
+
+.statusText {
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.kernelVersion {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #666666;
+}
+
+/* Main content styles */
+.mainContent {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftPanels,
+.rightPanels {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.panel {
+  background-color: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(2px);
+  border: 0.8px solid rgba(26, 26, 26, 0.6);
+  border-radius: 4px;
+  padding: 1rem;
+  width: 200px;
+  pointer-events: auto;
+}
+
+.panelTitle {
+  font-size: 12px;
+  letter-spacing: 4px;
+  margin-bottom: 1.5rem;
+  font-weight: normal;
+}
+
+.panelContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dataRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dataLabel {
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: #666666;
+  text-transform: uppercase;
+}
+
+.dataValue {
+  font-size: 11px;
+}
+
+.divider {
+  margin: 1.5rem 0;
+  height: 0.8px;
+  background-color: rgba(26, 26, 26, 0.3);
+}
+
+/* Footer styles */
+.footer {
+  height: 40px;
+  border-top: 0.8px solid rgba(26, 26, 26, 0.6);
+  background-color: rgba(8, 8, 8, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  pointer-events: auto;
+}
+
+.runtimeLabel,
+.memoryStatus,
+.temperatureStatus {
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+
+.runtimeLabel,
+.temperatureStatus {
+  color: #666666;
+}
+
+.runtimeValue {
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+
+.initButton {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: #666666;
+  background-color: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(2px);
+  border: 0.8px solid rgba(26, 26, 26, 0.6);
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-family: "JetBrains Mono", monospace;
+  pointer-events: auto;
+}
+
+.initButton:hover {
+  background-color: rgba(20, 20, 20, 0.3);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .mainContent {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    overflow-y: auto;
+  }
+
+  .leftPanels,
+  .rightPanels {
+    width: 100%;
+    align-items: center;
+  }
+
+  .panel {
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .header,
+  .footer {
+    padding: 0 1rem;
+  }
+
+  .mainTitle {
+    font-size: 12px;
+    letter-spacing: 4px;
+  }
+
+  .headerCenter {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .kernelVersion,
+  .temperatureStatus {
+    display: none;
+  }
+
+  .systemName {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  .initButton {
+    font-size: 9px;
+    padding: 0.5rem 1rem;
+  }
+
+  .subtitleContainer {
+    width: 85%;
+    bottom: 50px;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .speakerName {
+    font-size: 9px;
+    margin-right: 6px;
+    letter-spacing: 1px;
+  }
+
+  .subtitleText {
+    font-size: 11px;
+    letter-spacing: 0.3px;
+  }
+}

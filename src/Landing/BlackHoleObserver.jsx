@@ -2,9 +2,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./BlackHoleObserver.module.css";
 
+import AutoPlayAudio from "../audioPlayer/audioPlayer.jsx";
+
 import SpaceScene from "./3D/spaceScene.jsx";
 
-const BlackHoleObserver = () => {
+const BlackHoleObserver = ({onCompletion}) => {
+
+    const [handedOver, setHandedOver] = useState(false);
+
     // Loading state
     const [loading, setLoading] = useState(true);
     const [typewriterComplete, setTypewriterComplete] = useState(false);
@@ -12,6 +17,11 @@ const BlackHoleObserver = () => {
     // TARS subtitles state
     const [currentSubtitle, setCurrentSubtitle] = useState("");
     const [showSubtitles, setShowSubtitles] = useState(false);
+    const [speaker, setSpeaker] = useState("TARS");
+    
+    const [playingMain, setPlayingMain] = useState(false);
+    const [shouldSpiralIn, setShouldSpiralIn] = useState(false);
+
 
     // Event sequence states
     const [eventSequenceActive, setEventSequenceActive] = useState(false);
@@ -21,7 +31,7 @@ const BlackHoleObserver = () => {
         "AWAITING INPUT",
     ]);
     const [glitchLevel, setGlitchLevel] = useState(0); // 0-5, 0 = no glitch, 5 = severe
-    const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [buttonDisabled, setButtonDisabled] = useState(true);
 
     // Error popup state
     const [errorPopups, setErrorPopups] = useState([]);
@@ -35,6 +45,27 @@ const BlackHoleObserver = () => {
 
     // Solar system loader state
     const [showSolarSystemLoader, setShowSolarSystemLoader] = useState(false);
+
+
+    const [destabilizationAudioSquence, setDestabilizationAduioSequence] = useState([
+
+        "/audios/VoiceLines/error1.mp3",
+        "/audios/VoiceLines/error2.mp3",
+        "/audios/VoiceLines/error3.mp3",
+        "/audios/VoiceLines/error4.mp3",
+        "/audios/VoiceLines/error5.mp3",
+        "/audios/VoiceLines/error6.mp3",
+        "/audios/VoiceLines/error7.mp3"
+
+    ]);
+
+    const [alarmAudios, setAlarmAudios] = useState([
+
+        "/audios/alarm2.mp3",
+        "/audios/alarm1.mp3",
+        "/audios/alarm3.mp3",
+        "/audios/alarm4.mp3",
+    ]);
 
     // State management (replacing Alpine.js functionality)
     const [metrics, setMetrics] = useState({
@@ -79,27 +110,40 @@ const BlackHoleObserver = () => {
     const tarsDialogue = useRef([
         {
             text: "Welcome to the Black Hole Observer interface. I am TARS, your observation assistant.",
-            timing: 1000,
+            timing: 2000,
+            audio: "/audios/VoiceLines/tars1.mp3",
+            speaker: "TARS",
+            
         },
         {
-            text: "We are currently monitoring a supermassive black hole in sector NGC-4258.",
-            timing: 5000,
+            text: "We are currently monitoring a supermassive black hole in sector N-GC-4258.",
+            timing: 9000,
+            audio: "/audios/VoiceLines/tars2.mp3",
+            speaker: "TARS",
+        },
+        {
+            text: "Gravitational metrics steady. Quantum lens operational. Begin stellar survey, Commander.",
+            timing: 16000,
+            audio: "/audios/VoiceLinesMix/2-case.mp3",
+            speaker: "CASE",
         },
         {
             text: "The quantum bridge is active and stable. All systems are functioning normally.",
-            timing: 9000,
+            timing: 23000,
+            audio: "/audios/VoiceLines/tars3.mp3",
+            speaker: "TARS",
         },
         {
             text: "Warning: extreme gravitational field detected. Maintaining safe observation distance.",
-            timing: 13000,
+            timing: 28000,
+            audio: "/audios/VoiceLines/tars4.mp3",
+            speaker: "TARS",
         },
         {
-            text: "You may initialize or deactivate the quantum bridge using the control panel below.",
-            timing: 17000,
-        },
-        {
-            text: "I will remain on standby for further instructions. Enjoy your observation.",
-            timing: 21000,
+            text: "This singularity is ancient… and angry. Readings are unstable, keep your claws ready.",
+            timing: 36000,
+            audio: "/audios/VoiceLinesMix/4-kaela.mp3",
+            speaker: "KAELA",
         },
     ]);
 
@@ -109,7 +153,7 @@ const BlackHoleObserver = () => {
             log: "QUANTUM BRIDGE DEACTIVATED",
             tarsMessage:
                 "Quantum bridge deactivated. Switching to conventional observation mode.",
-            delay: 0,
+            delay: 8000,
             glitchLevel: 0,
             showError: false,
         },
@@ -117,7 +161,7 @@ const BlackHoleObserver = () => {
             log: "RECALIBRATING SENSORS",
             tarsMessage:
                 "Recalibrating sensors for direct observation. Please stand by.",
-            delay: 1000,
+            delay: 4000,
             glitchLevel: 0,
             showError: false,
         },
@@ -125,7 +169,7 @@ const BlackHoleObserver = () => {
             log: "WARNING: GRAVITATIONAL ANOMALY DETECTED",
             tarsMessage:
                 "Warning: Detecting unusual gravitational fluctuations. Analyzing...",
-            delay: 2000,
+            delay: 4000,
             glitchLevel: 1,
             showError: false,
         },
@@ -133,7 +177,7 @@ const BlackHoleObserver = () => {
             log: "ERROR: ORBITAL TRAJECTORY SHIFTING",
             tarsMessage:
                 "Alert: Our orbital trajectory is shifting. Attempting to compensate.",
-            delay: 5000,
+            delay: 2000,
             glitchLevel: 2,
             showError: true,
             errorData: {
@@ -149,7 +193,7 @@ const BlackHoleObserver = () => {
             log: "CRITICAL: GRAVITATIONAL PULL INCREASING",
             tarsMessage:
                 "Critical alert: Gravitational pull increasing beyond safe parameters. Attempting emergency quantum bridge reactivation.",
-            delay: 7000,
+            delay: 3000,
             glitchLevel: 3,
             showError: true,
             errorData: {
@@ -165,7 +209,7 @@ const BlackHoleObserver = () => {
             log: "EMERGENCY: QUANTUM BRIDGE FAILURE",
             tarsMessage:
                 "Emergency: Quantum bridge reactivation failed. We are being pulled toward the event horizon.",
-            delay: 9000,
+            delay: 3000,
             glitchLevel: 4,
             showError: true,
             errorData: {
@@ -181,7 +225,7 @@ const BlackHoleObserver = () => {
             log: "CRITICAL: EVENT HORIZON APPROACH IMMINENT",
             tarsMessage:
                 "Critical: Event horizon approach imminent. Prepare for spaghettification. It has been an honor serving with you.",
-            delay: 12000,
+            delay: 2000,
             glitchLevel: 5,
             showError: true,
             errorData: {
@@ -194,6 +238,33 @@ const BlackHoleObserver = () => {
         },
     ]);
 
+
+    const [audioInstances, setAudioInstances] = useState([]);
+
+    const playAudio = (src, repeat = 1, volume = 1, forceShut = 0) => {
+      
+        const key = Date.now() + Math.random(); // safer unique key
+      
+        setAudioInstances((prevInstances) => [
+          ...prevInstances,
+          <AutoPlayAudio
+            key={key}
+            src={src}
+            repeat={repeat}
+            volume={volume}
+            onEnd={() => handleAudioEnd(key)} // cleanup
+            duration={forceShut}
+          />,
+        ]);
+      };
+      
+    const handleAudioEnd = (key) => {
+        setAudioInstances((prevInstances) =>
+          prevInstances.filter((audio) => audio.key !== key)
+        );
+    };
+    
+    
     // Timer effect (replacing Alpine.js setInterval)
     useEffect(() => {
         if (!loading) {
@@ -207,14 +278,18 @@ const BlackHoleObserver = () => {
 
     // TARS dialogue effect - starts after loading completes
     useEffect(() => {
+        playAudio('DayOne.mp3', 0, 0.8); // Play audio once with full volume
+        
         if (!loading && !eventSequenceActive) {
             setShowSubtitles(true);
-
+            
             let dialogueTimers = [];
 
             tarsDialogue.current.forEach((dialogue) => {
                 const timer = setTimeout(() => {
                     setCurrentSubtitle(dialogue.text);
+                    playAudio(dialogue.audio, 1, 1)
+                    setSpeaker(dialogue.speaker)
                 }, dialogue.timing);
 
                 dialogueTimers.push(timer);
@@ -224,13 +299,15 @@ const BlackHoleObserver = () => {
             const hideTimer = setTimeout(
                 () => {
                     setShowSubtitles(false);
+                    setButtonDisabled(false);
                 },
-                tarsDialogue.current[tarsDialogue.current.length - 1].timing + 5000,
+                tarsDialogue.current[tarsDialogue.current.length - 1].timing + 6500,
             );
 
             dialogueTimers.push(hideTimer);
 
             return () => {
+                setSpeaker("TARS")
                 dialogueTimers.forEach((timer) => clearTimeout(timer));
             };
         }
@@ -295,11 +372,24 @@ const BlackHoleObserver = () => {
 
     // Destabilization sequence effect
     useEffect(() => {
+
         if (
             eventSequenceActive &&
             currentEventStep < destabilizationSequence.current.length
         ) {
+            setTimeout(() => {
+                setShouldSpiralIn(true)
+                setTimeout(() => {
+                    playAudio("/audios/crash.mp3", 1, 1)
+                }, 7000);
+            }, 20000);
+
             const currentEvent = destabilizationSequence.current[currentEventStep];
+
+            console.log(currentEvent)
+            console.log(currentEventStep)
+
+            playAudio(destabilizationAudioSquence[currentEventStep], 1, 0.7)
 
             // Add log entry
             setEventLogs((prev) => [currentEvent.log, ...prev.slice(0, 4)]);
@@ -307,6 +397,7 @@ const BlackHoleObserver = () => {
             // Show TARS message
             setShowSubtitles(true);
             setCurrentSubtitle(currentEvent.tarsMessage);
+            
 
             // Set glitch level
             setGlitchLevel(currentEvent.glitchLevel);
@@ -397,8 +488,15 @@ const BlackHoleObserver = () => {
                     },
                 };
 
+                console.log("erroringg")
+                setTimeout(() => {
+                    if (true) {
+                      playAudio(alarmAudios[Math.floor(Math.random() * 3)], 0, 0.1, 6000);
+                    }
+                }, Math.random() * 200 + 100); // small random delay between 100ms-300ms
+                
                 setErrorPopups((prev) => [...prev, newPopup]);
-
+                
                 // For higher glitch levels, add multiple error popups
                 if (currentEvent.glitchLevel >= 4) {
                     // Add 2-3 additional error popups with slight variations
@@ -414,6 +512,12 @@ const BlackHoleObserver = () => {
                                         left: `${Math.floor(Math.random() * 70) + 10}%`,
                                     },
                                 };
+                                console.log("smol erroring")
+                                setTimeout(() => {
+                                    if (true) {
+                                      playAudio(alarmAudios[Math.floor(Math.random() * 3)], 0, 0.1, 6000);
+                                    }
+                                }, Math.random() * 200 + 100); // small random delay between 100ms-300ms
                                 setErrorPopups((prev) => [...prev, additionalPopup]);
                             },
                             500 * (i + 1),
@@ -621,7 +725,10 @@ const BlackHoleObserver = () => {
                 opacity: Math.random() * 0.5 + 0.5,
             });
         }
-
+        
+        onCompletion()
+        setHandedOver(true)
+        
         return (
             <div className={styles.solarSystemLoader}>
                 <h2 className={styles.solarSystemTitle}>
@@ -680,13 +787,13 @@ const BlackHoleObserver = () => {
                     isComplete={typewriterComplete}
                 />
             )}
-            {showSubtitles && <TarsSubtitles currentSubtitle={currentSubtitle} />}
+            {showSubtitles && <TarsSubtitles currentSubtitle={currentSubtitle} speaker={speaker} />}
             {errorPopups.map((popup) => (
                 <ErrorPopup key={popup.id} error={popup} />
             ))}
             {showRedFlash && <div className={styles.redFlash} />}
-            <div id="backgroundCanvas" className={styles.backgroundCanvas} onClick={console.log("e")}>
-                <SpaceScene/>
+            <div id="backgroundCanvas" className={styles.backgroundCanvas}>
+                <SpaceScene shouldSpiralIn={shouldSpiralIn}/>
             </div>
             <div
                 className={`${styles.interface} ${disappearingElements.allElements ? styles.disappearingFast : ""}`}
@@ -722,21 +829,25 @@ const BlackHoleObserver = () => {
                         runtime={formatRuntime()}
                         initSystem={initSystem}
                         buttonDisabled={buttonDisabled}
+                        playAudio={playAudio}
                     />
                 </div>
             </div>
+
+            {audioInstances}
+
         </div>
     );
 };
 
 // TARS Subtitles Component
-const TarsSubtitles = ({ currentSubtitle }) => {
+const TarsSubtitles = ({ currentSubtitle, speaker }) => {
     if (!currentSubtitle) return null;
 
     return (
         <div className={styles.subtitlesContainer}>
             <div className={styles.subtitlesHeader}>
-                <span className={styles.subtitlesSource}>TARS:</span>
+                <span className={styles.subtitlesSource}>{speaker}:</span>
             </div>
             <p className={styles.subtitlesText}>{currentSubtitle}</p>
         </div>
@@ -750,7 +861,6 @@ const TypewriterLoading = ({ coordinates, onComplete, isComplete }) => {
 
     const fullText = useRef(`
 > INITIALIZING BLACK HOLE OBSERVER SYSTEM v3.1.415
-> ESTABLISHING QUANTUM BRIDGE CONNECTION...
 > CALIBRATING GRAVITATIONAL LENS...
 > SCANNING EVENT HORIZON PARAMETERS...
 > LOCATION IDENTIFIED:
@@ -980,7 +1090,7 @@ const LocationPanel = () => {
 };
 
 // Footer Component
-const Footer = ({ runtime, initSystem, buttonDisabled }) => {
+const Footer = ({ runtime, initSystem, buttonDisabled, playAudio }) => {
     return (
         <footer className={styles.footer}>
             <div className={styles.footerLeft}>
@@ -991,6 +1101,7 @@ const Footer = ({ runtime, initSystem, buttonDisabled }) => {
                 onClick={initSystem}
                 className={`${styles.initButton} ${buttonDisabled ? styles.buttonDisabled : ""}`}
                 disabled={buttonDisabled}
+                onMouseEnter={() => {playAudio("/audios/mouseIn.wav", 1, 0.1)}}
             >
                 INITIALIZE QUANTUM BRIDGE
             </button>
